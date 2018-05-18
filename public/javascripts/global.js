@@ -1,12 +1,7 @@
 // Userlist data array for filling in info box
 var userListData = [];
 
-// DOM Ready
-// if (document.readyState === "complete") {
-// 	//Populate the user table on initial load
-// 	console.log("complete");
 populateTable();
-// }
 
 // FUNCTIONS
 
@@ -47,24 +42,3 @@ function populateTable() {
 		table.innerHTML += tableContent;
 	}
 }
-
-// var xmlhttp = new XMLHttpRequest();
-// var url = "myTutorials.txt";
-//
-// xmlhttp.onreadystatechange = function() {
-// 	if (this.readyState == 4 && this.status == 200) {
-// 		var myArr = JSON.parse(this.responseText);
-// 		myFunction(myArr);
-// 	}
-// };
-// xmlhttp.open("GET", url, true);
-// xmlhttp.send();
-//
-// function myFunction(arr) {
-// 	var out = "";
-// 	var i;
-// 	for (i = 0; i < arr.length; i++) {
-// 		out += '<a href="' + arr[i].url + '">' + arr[i].display + "</a><br>";
-// 	}
-// 	document.getElementsByTagName("TBODY").innerHTML = out;
-// }
