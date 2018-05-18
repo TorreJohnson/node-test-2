@@ -4,6 +4,10 @@ var userListData = [];
 document.addEventListener("DOMContentLoaded", e => {
 	console.log("DOM fully loaded");
 	populateTable();
+	document.getElementById("btnAddUser").addEventListener("click", e => {
+		e.preventDefault();
+		addUser();
+	});
 });
 
 // Username link click
@@ -77,4 +81,29 @@ function showUserInfo(e) {
 	document.getElementById("userInfoGender").innerText += thisUserObject.gender;
 	document.getElementById("userInfoLocation").innerText +=
 		thisUserObject.location;
+}
+
+// Add User
+function addUser(e) {
+	// Basic validation - increase errorCount variable if any fields are blank
+	var errorCount = 0;
+	var inputs = document.getElementsByTagName("input");
+	for (var i = 0; i < inputs.length; i++) {
+		if (inputs[i].value === "") {
+			errorCount++;
+		}
+	}
+	// Check and make sure errorCount is still at zero
+	if (errorCount === 0) {
+		// If it is, compile all user info into one object
+		var newUser = {
+			username: document.getElementById("inputUserName").value,
+			email: document.getElementById("inputUserEmail").value,
+			fullname: document.getElementById("inputUserFullName").value,
+			age: document.getElementById("inputUserAge").value,
+			location: document.getElementById("inputUserLocation").value,
+			gender: document.getElementById("inputUserGender").value
+		};
+		console.log(newUser);
+	}
 }
