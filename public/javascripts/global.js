@@ -72,10 +72,9 @@ function showUserInfo(e) {
 	// Get our User Object
 	var thisUserObject = userListData[arrayPosition];
 	// Populate Info Box
-	document.getElementById("userInfoName").innerText(thisUserObject.fullname);
-	document.getElementById("userInfoAge").innerText(thisUserObject.age);
-	document.getElementById("userInfoGender").innerText(thisUserObject.gender);
-	document
-		.getElementById("userInfoLocation")
-		.innerText(thisUserObject.location);
+	document.getElementById("userInfoName").innerText += thisUserObject.fullname;
+	document.getElementById("userInfoAge").innerText += thisUserObject.age;
+	document.getElementById("userInfoGender").innerText += thisUserObject.gender;
+	document.getElementById("userInfoLocation").innerText +=
+		thisUserObject.location;
 }
