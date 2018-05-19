@@ -60,7 +60,7 @@ function populateTable() {
 		}
 		// Inject the whole content string into our existing HTML table
 		var table = document.getElementsByTagName("tbody")[0];
-		table.innerHTML += tableContent;
+		table.innerHTML = tableContent;
 		addEventListenersToUsernames();
 	}
 }
@@ -96,14 +96,47 @@ function addUser(e) {
 	// Check and make sure errorCount is still at zero
 	if (errorCount === 0) {
 		// If it is, compile all user info into one object
+		let username = document.getElementById("inputUserName");
+		let email = document.getElementById("inputUserEmail");
+		let fullname = document.getElementById("inputUserFullName");
+		let age = document.getElementById("inputUserAge");
+		let location = document.getElementById("inputUserLocation");
+		let gender = document.getElementById("inputUserGender");
 		var newUser = {
-			username: document.getElementById("inputUserName").value,
-			email: document.getElementById("inputUserEmail").value,
-			fullname: document.getElementById("inputUserFullName").value,
-			age: document.getElementById("inputUserAge").value,
-			location: document.getElementById("inputUserLocation").value,
-			gender: document.getElementById("inputUserGender").value
+			username: username.value,
+			email: email.value,
+			fullname: fullname.value,
+			age: age.value,
+			location: location.value,
+			gender: gender.value
 		};
-		console.log(newUser);
+		// POST user to database
+		fetch("http://localhost:3000/users/adduser", {
+			method: "POST",
+			headers: {
+				accept: "applicaton/json",
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(newUser)
+		})
+			.then(res => res.json())
+			.then(res => {
+				// Check for successful message response
+				if (res.msg === "") {
+					// Clear the form inputs
+					for (field in newUser) {
+						newUser[field] = "";
+					}
+					// Populate the table with the new data
+					populateTable();
+				} else {
+					// If an error is returned, alert the user of the error
+					alert("Error: " + res.msg);
+				}
+			});
+	} else {
+		// If errorCount is more than 0, error out
+		alert("Please fill in all fields");
+		return false;
 	}
 }
