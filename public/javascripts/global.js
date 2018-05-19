@@ -21,6 +21,17 @@ function addEventListenersToUsernames() {
 	}
 }
 
+// Delete link click
+function addEventListenersToDeleteLinks() {
+	let deleteLinks = document.getElementsByClassName("linkdeleteuser");
+	for (let i = 0; i < deleteLinks.length; i++) {
+		deleteLinks[i].addEventListener("click", e => {
+			e.preventDefault();
+			deleteUser(e.target.rel);
+		});
+	}
+}
+
 // FUNCTIONS
 
 // Fill table with data
@@ -62,6 +73,7 @@ function populateTable() {
 		var table = document.getElementsByTagName("tbody")[0];
 		table.innerHTML = tableContent;
 		addEventListenersToUsernames();
+		addEventListenersToDeleteLinks();
 	}
 }
 
@@ -131,12 +143,42 @@ function addUser(e) {
 					populateTable();
 				} else {
 					// If an error is returned, alert the user of the error
-					alert("Error: " + res.msg);
+					alert(`Error: ${res.msg}`);
 				}
 			});
 	} else {
 		// If errorCount is more than 0, error out
 		alert("Please fill in all fields");
+		return false;
+	}
+}
+
+// Delete user on link click
+function deleteUser(id) {
+	// Pop up a confirmation dialog
+	let confirmation = confirm("Are you sure that you want to delete this user?");
+	// Check and make sure that the user confirmed
+	if (confirmation === true) {
+		// If confirmation is true, delete the user
+		fetch(`http://localhost:3000/users/deleteuser/${id}`, {
+			method: "DELETE",
+			headers: {
+				accept: "application/json",
+				"content-type": "application/json"
+			}
+		})
+			.then(res => res.json())
+			.then(res => {
+				// Check for succesful response
+				if (res.msg === "") {
+				} else {
+					alert(`Error: ${res.msg}`);
+				}
+				// Update the table
+				populateTable();
+			});
+	} else {
+		// If user does not confirm the delete, do nothing
 		return false;
 	}
 }
